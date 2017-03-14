@@ -8,6 +8,7 @@ var _ = require('underscore');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var express = require('express');
+var mongo = require('./mongo');
 
 var mongoDBConnStr = process.env.MONGO_DB_CONNECTION_STRING;
 var mongoDBCollection = process.env.MONGO_DB_COLLECTION;

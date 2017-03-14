@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: acr-stevelas-microsoft
+type: kubernetes.io/dockercfg
+data:
+  .dockercfg: eyJodHRwczovL3N0ZXZlbGFzLW1pY3Jvc29mdC5henVyZWNyLmlvIjp7InVzZXJuYW1lIjoic3RldmVsYXMiLCJwYXNzd29yZCI6IisrSSsrL3ArKysvcWhiPVUvR0Q9SGMvS1BBVDgrUkhYIiwiZW1haWwiOiJzdGV2ZWxhc0BtaWNyb3NvZnQuY29tIiwiYXV0aCI6ImMzUmxkbVZzWVhNNkt5dEpLeXN2Y0Nzckt5OXhhR0k5VlM5SFJEMUlZeTlMVUVGVU9DdFNTRmc9In19
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: bikes
+  labels:
+    scope: bikes
+spec:
+  replicas: 1
+  selector:
+   matchLabels:
+      scope: bikes
+  template:
+    metadata:
+      labels:
+        scope: bikes
+    spec:
+      imagePullSecrets:
+      - name: acr-stevelas-microsoft
+      containers:
+      - name: bikes
+        image: stevelas-microsoft.azurecr.io/contoso-bikerental-bikes
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bikes
+  labels:
+    scope: bikes
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    scope: bikes
