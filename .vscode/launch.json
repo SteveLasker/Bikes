@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name":"NodeJS Launch (Mindaro)",
+            "type": "node",
+            "request": "attach",
+            "port": 54075,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceRoot}",
+            "remoteRoot": "/usr/src/app",
+            "preLaunchTask": "prepareDebug"
+        }
+    ]
+}
+

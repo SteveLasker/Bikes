@@ -1,0 +1,14 @@
+{
+    "version": "0.1.0",
+    "cwd": "${workspaceRoot}",
+    "command": "/bin/bash",
+    "tasks": [
+        {
+            "taskName": "prepareDebug",
+            "suppressTaskName": true,
+            "isBuildCommand": false,
+            "args": [ "-c", "./.vscode/tenxTasks.sh" ],
+            "showOutput": "always"
+        }
+    ]
+}

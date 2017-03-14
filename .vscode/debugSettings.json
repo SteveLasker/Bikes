@@ -1,0 +1,26 @@
+{
+  "name": "NodeJS",
+  "debugImage": "xinyan/nodejsdebug:latest",
+  "supportedPlatforms": ["linux", "windows", "osx"],
+  "portTransport": 5858,
+  "localPort": 54075,
+  "commands": [
+    {
+      "command": "pkill node",
+      "ignoreFailure": true
+    },
+    {
+      "command": "npm install",
+      "changeMatch": "packages.json"
+    },
+    {
+      "command": "node --debug-brk=5857 server.js",
+      "runInBackground": true
+    }
+  ],
+  "container": {
+    "remoteDebugEnabled": true,
+    "containerPath": "/usr/src/app/node_modules;/usr/src/app",
+    "hostPath": "$RUN_ROOT$/packages;/home/$USER_NAME$/docker/files/$WORKSPACE_NAME$/$SHARE_NAME$"
+  }
+}
