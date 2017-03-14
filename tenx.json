@@ -1,0 +1,13 @@
+{
+  "name": "bikes",
+  "build": {
+    "imageName": "contoso-bikerental-bikes-dev",
+    "runtime": "NodeJS"
+  },
+  "service": {
+    "name": "stevelas/contoso-bikerental-bikes",
+    "isPublic": true,
+    "memory": 512
+  },
+  "dependencies": {}
+}
