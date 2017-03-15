@@ -261,7 +261,7 @@ app.get('/hello', function(req, res) {
 });
 
 // start server ------------------------------------------------------------
-var port = 80;
+var port = 5000;
 var server = null;
 
 MongoClient.connect(mongoDBConnStr, function(err, db) {
