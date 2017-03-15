@@ -5,7 +5,7 @@
     "runtime": "NodeJS"
   },
   "service": {
-    "name": "stevelas/contoso-bikerental-bikes",
+    "name": "bikesharing/bikes",
     "isPublic": true,
     "memory": 512
   },
