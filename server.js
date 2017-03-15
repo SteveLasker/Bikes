@@ -89,11 +89,57 @@ app.get('/api/availableBikes', function (req, res) {
 
         data.forEach(function(bike) {
             bike.id = bike._id;
+//            bike.FOO = "BAR";
             delete bike._id;
         });
 
         res.send(data);
     });
+});
+
+
+// get bike ------------------------------------------------------------
+app.get('/api/bikes/:bikeId', function(req, res) {
+    if (!req.params.bikeId) {
+        res.status(400).send('Must specify bikeId');
+        return;
+    }
+
+    mongoDB.collection(mongoDBCollection).findOne({ _id: new ObjectId(req.params.bikeId) }, function(err, result) {
+        if (err) {
+            dbError(res, err);
+            return;
+        }
+        if (!result) {
+            bikeDoesNotExist(res, req.params.bikeId);
+            return;
+        }
+
+        var theBike = result;
+        theBike.id = theBike._id;
+        delete theBike._id;
+
+        res.send(theBike);
+    });
+});
+// reserve bike ------------------------------------------------------------
+app.patch('/api/bikes/:bikeId/reserve', function(req, res) {
+    if (!req.params.bikeId) {
+        res.status(400).send('Must specify bikeId');
+        return;
+    }
+
+    processReservation(res, req.params.bikeId, false);
+});
+
+// clear bike ------------------------------------------------------------
+app.patch('/api/bikes/:bikeId/clear', function(req, res) {
+    if (!req.params.bikeId) {
+        res.status(400).send('Must specify bikeId');
+        return;
+    }
+
+    processReservation(res, req.params.bikeId, true);
 });
 
 // new bike ------------------------------------------------------------
@@ -154,31 +200,6 @@ app.put('/api/bikes/:bikeId', function(req, res) {
     });
 });
 
-// get bike ------------------------------------------------------------
-app.get('/api/bikes/:bikeId', function(req, res) {
-    if (!req.params.bikeId) {
-        res.status(400).send('Must specify bikeId');
-        return;
-    }
-
-    mongoDB.collection(mongoDBCollection).findOne({ _id: new ObjectId(req.params.bikeId) }, function(err, result) {
-        if (err) {
-            dbError(res, err);
-            return;
-        }
-        if (!result) {
-            bikeDoesNotExist(res, req.params.bikeId);
-            return;
-        }
-
-        var theBike = result;
-        theBike.id = theBike._id;
-        delete theBike._id;
-
-        res.send(theBike);
-    });
-});
-
 // delete bike ------------------------------------------------------------
 app.delete('/api/bikes/:bikeId', function(req, res) {
     if (!req.params.bikeId) {
@@ -206,25 +227,6 @@ app.delete('/api/bikes/:bikeId', function(req, res) {
     });
 });
 
-// reserve bike ------------------------------------------------------------
-app.patch('/api/bikes/:bikeId/reserve', function(req, res) {
-    if (!req.params.bikeId) {
-        res.status(400).send('Must specify bikeId');
-        return;
-    }
-
-    processReservation(res, req.params.bikeId, false);
-});
-
-// clear bike ------------------------------------------------------------
-app.patch('/api/bikes/:bikeId/clear', function(req, res) {
-    if (!req.params.bikeId) {
-        res.status(400).send('Must specify bikeId');
-        return;
-    }
-
-    processReservation(res, req.params.bikeId, true);
-});
 
 function processReservation(res, bikeId, changeTo) {
     mongoDB.collection(mongoDBCollection).updateOne({ _id: new ObjectId(bikeId), available: !changeTo }, { $set: { available: changeTo } }, function(err, result) {
