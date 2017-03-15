@@ -6,7 +6,6 @@
   },
   "service": {
     "name": "bikesharing/bikes",
-    "isPublic": true,
     "memory": 512
   },
   "dependencies": {}

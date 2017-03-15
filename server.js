@@ -69,7 +69,8 @@ app.use(bodyParser.json());
 
 // find bike ------------------------------------------------------------
 app.get('/api/availableBikes', function (req, res) {
-    var query = { available: true };
+    var query = { };
+    // var query = { available: true };
     // Add user filter conditions
     for (var queryParam in req.query) {
         if (isNaN(req.query[queryParam])) {
@@ -89,7 +90,6 @@ app.get('/api/availableBikes', function (req, res) {
 
         data.forEach(function(bike) {
             bike.id = bike._id;
-//            bike.FOO = "BAR";
             delete bike._id;
         });
 
